@@ -4,28 +4,35 @@ import questions from "./questions";
 import SubmitButtton from "./SubmitButton";
 
 function Question() {
-  const [answers, setAnswers] = useState({});
-  const [result, setResult] = useState("");
-
-  const onClick = (event) => {
-    setAnswers((prevAnswers) => [...prevAnswers, event.target.value]);
-  };
+  const [result, setResult] = useState("FINISH THE TEST FFS");
+  const [buttonClicked, setButtonClicked] = useState(false);
 
   const results = {
     extrovert: ["true", "true", "true", "true", "true"],
     introvert: ["false", "false", "false", "false", "false"],
+    omnivert: ["neutral", "neutral", "neutral", "neutral", "neutral"],
   };
 
-  let arr = [];
-
   function getArray(arr) {
-    let counter = 0;
+    let introvert = 0;
+    let extrovert = 0;
+    let omnivert = 0;
     for (let i = 0; i < arr.length; i++) {
       if (arr[i].answer === results.introvert[i]) {
-        counter++;
+        introvert++;
+      } else if (arr[i].answer === results.extrovert[i]) {
+        extrovert++;
+      } else if (arr[i].answer === results.omnivert[i]) {
+        omnivert++;
       }
     }
-    return counter === 5 ? setResult("Introvert") : setResult("Extrovert");
+    if (introvert === 5) {
+      setResult("Introvert");
+    } else if (extrovert === 5) {
+      setResult("Extrovert");
+    } else if (omnivert === 5) {
+      setResult("Omnivert");
+    }
   }
 
   return (
@@ -35,30 +42,38 @@ function Question() {
           <div>
             <li key={index}>{question.question}</li>
             <button
-              onClick={(e) => (
-                (question.answer = e.target.value), console.log(question)
-              )}
+              key={index}
+              className={buttonClicked ? "buttonTrue" : "buttonFalse"}
+              onClick={(e) => {
+                question.answer = e.target.value;
+                setButtonClicked(true);
+              }}
               value="false"
             >
               FALSE
             </button>
             <button
-              onClick={(e) => (
-                (question.answer = e.target.value), console.log(question)
-              )}
+              key={index}
+              className={buttonClicked ? "buttonTrue" : "buttonFalse"}
+              onClick={(e) => {
+                question.answer = e.target.value;
+                setButtonClicked(true);
+              }}
               value="neutral"
             >
               NEUTRAL
             </button>
             <button
-              onClick={(e) => (
-                (question.answer = e.target.value), console.log(question)
-              )}
+              key={index}
+              className={buttonClicked ? "buttonTrue" : "buttonFalse"}
+              onClick={(e) => {
+                question.answer = e.target.value;
+                setButtonClicked(true);
+              }}
               value="true"
             >
               TRUE
             </button>
-            {}
           </div>
         );
       })}
