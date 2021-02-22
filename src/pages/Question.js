@@ -3,9 +3,9 @@ import TestButton from "./TestButton";
 import questions from "./questions";
 import SubmitButtton from "./SubmitButton";
 
-function Question() {
-  const [result, setResult] = useState("FINISH THE TEST FFS");
+function Question(props) {
   const [buttonClicked, setButtonClicked] = useState(false);
+  const [answers, setAnswers] = useState({});
 
   const results = {
     extrovert: ["true", "true", "true", "true", "true"],
@@ -27,11 +27,11 @@ function Question() {
       }
     }
     if (introvert === 5) {
-      setResult("Introvert");
+      props.setResult("Introvert");
     } else if (extrovert === 5) {
-      setResult("Extrovert");
+      props.setResult("Extrovert");
     } else if (omnivert === 5) {
-      setResult("Omnivert");
+      props.setResult("Omnivert");
     }
   }
 
@@ -43,9 +43,18 @@ function Question() {
             <li key={index}>{question.question}</li>
             <button
               key={index}
-              className={buttonClicked ? "buttonTrue" : "buttonFalse"}
+              //   className={buttonClicked ? "buttonTrue" : "buttonFalse"}
+              className={
+                answers[question.id] === "false" ? "buttonTrue" : "buttonFalse"
+              }
               onClick={(e) => {
                 question.answer = e.target.value;
+                setAnswers((answers) => {
+                  return {
+                    ...answers,
+                    [question.id]: e.target.value,
+                  };
+                });
                 setButtonClicked(true);
               }}
               value="false"
@@ -54,9 +63,20 @@ function Question() {
             </button>
             <button
               key={index}
-              className={buttonClicked ? "buttonTrue" : "buttonFalse"}
+              //   className={buttonClicked ? "buttonTrue" : "buttonFalse"}
+              className={
+                answers[question.id] === "neutral"
+                  ? "buttonTrue"
+                  : "buttonFalse"
+              }
               onClick={(e) => {
                 question.answer = e.target.value;
+                setAnswers((answers) => {
+                  return {
+                    ...answers,
+                    [question.id]: e.target.value,
+                  };
+                });
                 setButtonClicked(true);
               }}
               value="neutral"
@@ -65,9 +85,18 @@ function Question() {
             </button>
             <button
               key={index}
-              className={buttonClicked ? "buttonTrue" : "buttonFalse"}
+              //   className={buttonClicked ? "buttonTrue" : "buttonFalse"}
+              className={
+                answers[question.id] === "true" ? "buttonTrue" : "buttonFalse"
+              }
               onClick={(e) => {
                 question.answer = e.target.value;
+                setAnswers((answers) => {
+                  return {
+                    ...answers,
+                    [question.id]: e.target.value,
+                  };
+                });
                 setButtonClicked(true);
               }}
               value="true"
@@ -78,7 +107,7 @@ function Question() {
         );
       })}
       <button onClick={() => getArray(questions)}>SUBMIT</button>
-      <div>You are an: {result}</div>
+      <div>You are an: {props.result}</div>
     </div>
   );
 }

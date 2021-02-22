@@ -1,14 +1,19 @@
 import "./App.css";
 import LoginButton from "./components/LogininButton";
 import LogoutButton from "./components/LogoutButton";
-import Test from "./pages/Test";
+import Question from "./pages/Question";
+import ResultsPage from "./pages/ResultsPage";
+import { useState } from "react";
 
 function App() {
+  const [result, setResult] = useState("FINISH THE TEST");
+
   return (
     <>
       <LoginButton />
       <LogoutButton />
-      <Test />
+      <Question result={result} setResult={setResult} />
+      <ResultsPage result={result} />
     </>
   );
 }
